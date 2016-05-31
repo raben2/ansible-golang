@@ -1,0 +1,66 @@
+- name: "downoad go {{ go_version }}"
+  get_url: 
+     url: "{{ go_dl }}"
+     dest: /usr/src/go.tar.gz
+     use_proxy: no
+
+- name: unpack go 
+  unarchive: 
+    creates: "/usr/local/go"
+    copy: no
+    dest: /usr/local
+    src: "/usr/src/go.tar.gz"
+
+- name: create go profile.sh
+  template:
+    src: go.sh.j2
+    dest: /etc/profile.d/go.sh
+
+- name: create go group
+  group: 
+    gid: 8000
+    name: gousers
+    state: present
+
+- name: add go users to group
+  user:
+    name: "{{ item }}"
+    group: gousers
+    append: yes
+  with_items:
+    - "{{ go_users }}"
+
+- name: ensure gopath
+  file:
+   dest: "{{ go_path }}/packages"
+   state: directory
+   owner: root
+   group: gousers
+   mode: 0770
+
+- name: update path
+  lineinfile: >
+    dest=/etc/bashrc
+    state=present
+    backrefs=yes
+    regexp='PATH=(["]*)((?!.*?{{ go_bin }}).*?)(["]*)$'
+    line="PATH=\1\2:{{ go_bin }}:$GOPATH\3"
+    
+- name: update path 2
+  lineinfile: >
+    dest="/home/{{ item }}/.bash_profile"
+    state=present
+    backrefs=yes
+    regexp='PATH=(["]*)((?!.*?{{ go_bin }}).*?)(["]*)$'
+    line="PATH=\1\2:{{ go_bin }}:$GOPATH\3"
+  with_items: 
+        - "{{ go_users }}"
+
+- name: update path 3
+  lineinfile: >
+    dest=/etc/skel/.bash_profile
+    state=present
+    backrefs=yes
+    regexp='PATH=(["]*)((?!.*?{{ go_bin }}).*?)(["]*)$'
+    line="PATH=\1\2:{{ go_bin }}:$GOPATH\3"
+
