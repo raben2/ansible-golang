@@ -2,7 +2,7 @@
   get_url: 
      url: "{{ go_dl }}"
      dest: /usr/src/go.tar.gz
-     use_proxy: no
+     use_proxy: yes
 
 - name: unpack go 
   unarchive: 
