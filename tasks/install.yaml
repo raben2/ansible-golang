@@ -65,6 +65,7 @@
     line="PATH=\1\2:{{ go_bin }}:$GOPATH\3"
   with_items: 
         - "{{ go_users }}"
+  ignore_errors: true
 
 - name: update path 3
   lineinfile: >
