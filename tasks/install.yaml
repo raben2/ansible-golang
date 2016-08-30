@@ -13,6 +13,8 @@
      use_proxy: yes
      validate_certs: False
   when: useproxy
+  env:
+    https_proxy: "{{ proxy_http }}"
 
 - name: unpack go 
   unarchive: 
