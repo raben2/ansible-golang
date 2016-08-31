@@ -38,7 +38,7 @@
   user:
     name: "{{ item }}"
     group: gousers
-    append: yes
+    append: True
   with_items:
     - "{{ go_users }}"
 
