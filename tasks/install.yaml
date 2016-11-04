@@ -34,14 +34,6 @@
     name: gousers
     state: present
 
-- name: add go users to group
-  user:
-    name: "{{ item }}"
-    group: gousers
-    append: True
-  with_items:
-    - "{{ go_users }}"
-
 - name: ensure gopath
   file:
    dest: "{{ go_path }}/packages"
