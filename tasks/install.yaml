@@ -2,8 +2,19 @@
   get_url: 
      url: "{{ go_dl }}"
      dest: /usr/src/go.tar.gz
+     use_proxy: yes
+     validate_certs: False
+  register: download
+  environment:
+    https_proxy: "http://{{ http_proxy }}:{{ http_proxy_port }}/"
+  when: "{{ useproxy | bool }}"
+- name: "downoad go {{ go_version }}"
+  get_url: 
+     url: "{{ go_dl }}"
+     dest: /usr/src/go.tar.gz
      use_proxy: no
      validate_certs: False
+  when: "{{ download |skipped }}"
 
 - name: unpack go 
   unarchive: 
