@@ -8,6 +8,7 @@
   environment:
     https_proxy: "http://{{ http_proxy }}:{{ http_proxy_port }}/"
   when: "{{ useproxy | bool }}"
+  
 - name: "download go {{ go_version }}"
   get_url: 
      url: "{{ go_dl }}"
