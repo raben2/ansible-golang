@@ -71,3 +71,11 @@
     regexp='PATH=(["]*)((?!.*?{{ go_bin }}).*?)(["]*)$'
     line="PATH=\1\2:{{ go_bin }}:$GOPATH\3"
 
+- name: install user go path dirs
+  file:
+    state: directory
+    dest: ["/home/{{ item }}/go", "/home/{{ item }}/go/src", "/home/{{ item }}/go/bin", "/home/{{ item }}/go/pkg"]
+    owner: "{{ item }}"
+    group: gousers
+  with_items:
+      - "{{ go_users }}"

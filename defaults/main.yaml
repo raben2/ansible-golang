@@ -3,4 +3,5 @@ go_bin: "/usr/local/go/bin"
 go_path: "/home/$USER/go"
 go_version: 1.8rc3
 useproxy: false
-go_users: ['{{ lookup('env','USER') }}']
+go_install_folders: True
+go_users: ["{{ lookup('env','USER') }}"]
