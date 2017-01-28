@@ -1,4 +1,6 @@
 go_dl: "https://storage.googleapis.com/golang/go{{ go_version }}.linux-amd64.tar.gz"
 go_bin: "/usr/local/go/bin"
 go_path: "/usr/local/go"
-go_version: 1.7.3
+go_version: 1.8
+useproxy: false
+go_users: ['{{ ansible_ssh_user }}']
